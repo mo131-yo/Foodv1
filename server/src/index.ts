@@ -81,6 +81,7 @@ import { UserModel } from "./schema/user.schema";
 import bcrypt from "bcrypt";
 import { ResetPasswordVerificationEmail } from "./utils/reset-password";
 import { orderRouter } from "./router/order.router";
+import jwt from "jsonwebtoken"
 
 configDotenv();
 
@@ -136,6 +137,29 @@ app.post("/reset-password", async (req, res) => {
         res.status(500).json({ message: "Aldaa garlaa", error: result.error });
     }
 });
+
+
+
+app.post("/verify-otp", async (req, res) => {
+    const { email, otpCode } = req.body;
+    const user = await UserModel.findOne({ email });
+
+    if (!user || user.resetPasswordOtp !== otpCode || new Date() > user.resetPasswordExpires!) {
+        return res.status(400).json({ message: "Код буруу эсвэл хугацаа нь дууссан" });
+    }
+
+    // Баталгаажуулалт амжилттай болмогц JWT токен үүсгэнэ
+    const resetToken = jwt.sign(
+        { userId: user._id, verified: true }, 
+        process.env.JWT_SECRET as string, 
+        { expiresIn: "10m" }
+    );
+
+    res.status(200).json({ resetToken });
+});
+
+
+
 
 const PORT = process.env.PORT || 8000;
 

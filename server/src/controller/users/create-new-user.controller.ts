@@ -71,7 +71,8 @@ export const createUser = async (req: Request, res: Response) => {
 
         res.status(200).json({
             message: "User amjilttai uuslee", 
-            data: savedUser
+            data: savedUser,
+            token
         });
 
     } catch (error) {

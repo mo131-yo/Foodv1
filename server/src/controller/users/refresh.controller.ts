@@ -1,5 +1,4 @@
 import { Request, Response } from "express";
-import { UserModel } from "../../schema/user.schema";
 
 export const refresh = async (req: Request, res: Response) => {
     try {

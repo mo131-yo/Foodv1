@@ -5,6 +5,7 @@ import { signInController } from "../controller/users/Nevterh/sign-in-controller
 import { verifyUser } from "../controller/users/verify-user.controller";
 import { updateUser } from "../controller/users/update.controller";
 import { getAllUsers } from "../controller/users/all-user.controller";
+import { resetPassword } from "../controller/users/reset-Password.controller";
 
 export const userRouter = Router();
 
@@ -22,3 +23,5 @@ userRouter.get("/verify-user", verifyUser);
 userRouter.post("/resend-otp", signInController);
 
 userRouter.post("/update-user/:id", updateUser);
+
+userRouter.patch("/reset-password-request/:userId", resetPassword);
