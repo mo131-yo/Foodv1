@@ -22,35 +22,29 @@ import { UserModel } from "../../schema/user.schema";
 //         res.status(400).json({ message: "Hugatsaa duussan" });
 //     }
 // };
-
 export const resetPassword = async (req: Request, res: Response) => {
     try {
         const { token, verifyCode, newPassword } = req.body;
-        const { userId } = req.params; // URL-аас ирж буй userId-г авах
 
-        // 1. Токеныг баталгаажуулах
+        // 1. Токеныг баталгаажуулж, доторх userId-г гаргаж авах
         const decoded = jwt.verify(token, process.env.JWT_SECRET as string) as {
             userId: string;
-            verifyCode: string;
+            verifyCode: number;
         };
 
-        // 2. URL-ийн userId болон Токен доторх userId таарч байгааг шалгах (Security check)
-        if (decoded.userId !== userId) {
-            return res.status(401).json({ message: "Хүчингүй хүсэлт" });
-        }
-
-        // 3. Хэрэглэгчээ хайх
-        const user = await UserModel.findById(userId);
+        // 2. Хэрэглэгчээ зөвхөн токен доторх userId-аар хайх
+        const user = await UserModel.findById(decoded.userId);
+        
         if (!user) {
             return res.status(404).json({ message: "Хэрэглэгч олдсонгүй" });
         }
 
-        // 4. VerifyCode-ийг шалгах (Хэрэв токен дотор хадгалсан бол)
+        // 3. VerifyCode-ийг шалгах
         if (decoded.verifyCode !== verifyCode) {
             return res.status(400).json({ message: "Баталгаажуулах код буруу байна" });
         }
 
-        // 5. Нууц үгийг шинэчлэх
+        // 4. Нууц үгийг шинэчлэх
         const salt = await bcrypt.genSalt(10);
         user.password = await bcrypt.hash(String(newPassword), salt);
         

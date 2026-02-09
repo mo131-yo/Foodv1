@@ -144,20 +144,27 @@ app.post("/verify-otp", async (req, res) => {
     const { email, otpCode } = req.body;
     const user = await UserModel.findOne({ email });
 
-    if (!user || user.resetPasswordOtp !== otpCode || new Date() > user.resetPasswordExpires!) {
-        return res.status(400).json({ message: "Код буруу эсвэл хугацаа нь дууссан" });
+    if (!user) {
+        console.log("Хэрэглэгч олдсонгүй");
+        return res.status(400).json({ message: "Код буруу" });
     }
 
-    // Баталгаажуулалт амжилттай болмогц JWT токен үүсгэнэ
-    const resetToken = jwt.sign(
-        { userId: user._id, verified: true }, 
-        process.env.JWT_SECRET as string, 
-        { expiresIn: "10m" }
-    );
+    console.log("Оруулсан код:", otpCode);
+    console.log("Баазад байгаа код:", user.resetPasswordOtp);
+    console.log("Одоогийн цаг:", new Date());
+    console.log("Дуусах цаг:", user.resetPasswordExpires);
 
-    res.status(200).json({ resetToken });
+    const isCodeWrong = user.resetPasswordOtp !== otpCode;
+    const isExpired = new Date() > user.resetPasswordExpires!;
+
+    if (isCodeWrong || isExpired) {
+        return res.status(400).json({ 
+            message: isCodeWrong ? "Код буруу байна" : "Хугацаа дууссан байна" 
+        });
+    }
+
+    // ... бусад код
 });
-
 
 
 

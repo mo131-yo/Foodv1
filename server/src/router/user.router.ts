@@ -24,4 +24,4 @@ userRouter.post("/resend-otp", signInController);
 
 userRouter.post("/update-user/:id", updateUser);
 
-userRouter.patch("/reset-password-request/:userId", resetPassword);
+userRouter.patch("/reset-password-request", resetPassword);
