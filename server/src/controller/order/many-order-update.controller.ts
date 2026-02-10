@@ -9,7 +9,7 @@ export const manyOrderUpdate = async (req: Request, res: Response) => {
             return res.status(400).json({ message: "Zahialgiin id jagsaalt hooson bn" });
         }
 
-        const validStatuses = ["Pending", "Preparing", "Shipping", "Delivered", "Cancelled"];
+        const validStatuses = ["Pending", "Processing", "Delivered", "Cancelled"];
         if (!validStatuses.includes(newStatus)) {
             return res.status(400).json({ message: "buruu tuluv" });
         }

@@ -18,6 +18,7 @@ interface User extends Document {
   otpExpires?: Date;
   phoneNumber: string,
   userName: string,
+  refreshToken: string,
 }
 
 const UserSchema = new Schema<User>({
@@ -33,6 +34,7 @@ const UserSchema = new Schema<User>({
     resetPasswordOtp: {type: String, required: false},
     resetPasswordExpires: {type: Date, required: false},
     userName: { type:String},
+    refreshToken: { type:String }
 }, 
 { timestamps: true });
 // export const UserModel = models["User"] || model("User", UserSchema);

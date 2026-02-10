@@ -4,15 +4,17 @@ import { OrderModel } from "../../models";
 
 export const getAllOrder = async (req: Request, res: Response) => {
     try {
-        const order = await OrderModel.find();
-        
+        const order = await OrderModel.find()
+            .populate("user", "name email")
+            .populate("foods.food");
+
         res.status(200).json({
-            message: "Buh Khool",
+            message: "Buh zahialguud",
             count: order.length,
             data: order
         });
     } catch (error) {
-        console.error(error);
-        res.status(500).json({ message: "Alda garlaa" });
+        console.error("GetAllOrder Error:", error);
+        res.status(500).json({ message: "Aldaa garlaa" });
     }
 };

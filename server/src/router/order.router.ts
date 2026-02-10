@@ -11,8 +11,8 @@ export const orderRouter = Router();
 
 orderRouter.post("/create-order",authMiddleware, createOrder)
 
-orderRouter.get("/all-order", getAllOrder);
+orderRouter.get("/all-order", authMiddleware, getAllOrder);
 
-orderRouter.get("/get-by-id-order/:userId", getOrderByIdGet);
+orderRouter.get("/get-by-id-order/:userId",authMiddleware , getOrderByIdGet);
 
-orderRouter.patch("/many-order-update/:foodOderId", authMiddleware, roleMiddleware([UserRole.ADMIN]), manyOrderUpdate);
+orderRouter.patch("/many-order-update", authMiddleware, roleMiddleware([UserRole.ADMIN]), manyOrderUpdate);

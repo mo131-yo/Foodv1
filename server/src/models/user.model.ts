@@ -16,6 +16,7 @@ enum UserRole {
     isVerified: boolean;
     ttl?: Date;
     verificationToken?: string;
+    refreshToken: string,
     // orderedFoods: ObjectId[];
     };
 
@@ -31,6 +32,7 @@ enum UserRole {
     verificationToken: { type: String },
     phoneNumber: {type: String},
     address: {type: String, required: true},
+    refreshToken: { type:String }
     // orderedFoods: { type: Schema.Types.ObjectId },
    },
    {timestamps: true},

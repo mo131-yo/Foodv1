@@ -3,7 +3,7 @@ import { FoodCategoryModel } from "../../schema/Category.schema";
 
 export const getAllFoodCategory = async (req: Request, res: Response) => {
     try {
-        const foodCategory = await FoodCategoryModel.find();
+        const foodCategory = await FoodCategoryModel.find().populate("foods");
         
         res.status(200).json({
             message: "Buh Category",
