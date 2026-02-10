@@ -23,7 +23,7 @@ enum UserRole {
     const UserSchema= new Schema<User>({
      _id: { type: Schema.Types.ObjectId },
     name: {type: String, required: true},
-    email: {type: String, required: true},
+    email: {type: String, required: true, unique: true},
     password: {type: String, required: true},
     role: {type: String, enum: Object.values(UserRole), default: UserRole.USER},
     isVerified: { type: Boolean, default: false, required: false},

@@ -4,10 +4,10 @@ import mongoose from "mongoose";
 
 export const updateFood = async (req: Request, res: Response) => {
   try {
-    const { id } = req.params;
+    const { foodId } = req.params;
     const updateData = req.body; 
 
-    if (typeof id !== 'string' || !mongoose.Types.ObjectId.isValid(id)) {
+    if (typeof foodId !== 'string' || !mongoose.Types.ObjectId.isValid(foodId)) {
       return res.status(400).json({
         success: false,
         message: "Id huchingui.",
@@ -15,7 +15,7 @@ export const updateFood = async (req: Request, res: Response) => {
     }
 
     const updatedFood = await (FoodModel as any).findByIdAndUpdate(
-      id, 
+      foodId, 
       updateData, 
       { new: true, runValidators: true } 
     );

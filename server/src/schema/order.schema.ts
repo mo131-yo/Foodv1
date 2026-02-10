@@ -7,7 +7,6 @@ export const OrderSchema = new Schema({
     foods: [
         {
             food: { type: Schema.Types.ObjectId, ref: "Food" },
-            quantity: { type: Number, default: 1 }
         }],
     totalPrice: {type: Number},
     address: String,

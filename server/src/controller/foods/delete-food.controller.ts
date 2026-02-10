@@ -5,23 +5,23 @@ import mongoose from "mongoose";
 
 export const deleteFood = async (req: Request, res: Response) => {
   try {
-    const { id } = req.params;
+    const { foodId } = req.params;
 
-    if (typeof id !== 'string') {
+    if (typeof foodId !== 'string') {
       return res.status(400).json({
         success: false,
         message: "ID bhq",
       });
     }
 
-    if (!mongoose.Types.ObjectId.isValid(id)) {
+    if (!mongoose.Types.ObjectId.isValid(foodId)) {
       return res.status(400).json({
         success: false,
         message: "id huchingui",
       });
     }
 
-    const deletedFood = await (FoodModel as any).findByIdAndDelete(id);
+    const deletedFood = await (FoodModel as any).findByIdAndDelete(foodId);
 
     if (!deletedFood) {
       return res.status(404).json({

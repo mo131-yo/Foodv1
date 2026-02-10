@@ -34,7 +34,6 @@
 //     }
 // };
 import { Request, Response } from "express";
-// import { FilterQuery } from "mongoose"; 
 import { FoodCategoryModel } from "../../models/food.category.model";
 
 export const updateCategory = async (req: Request, res: Response) => {

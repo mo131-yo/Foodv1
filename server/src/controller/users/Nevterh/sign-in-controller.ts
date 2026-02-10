@@ -80,10 +80,9 @@ export const signInController = async (req: Request, res: Response) => {
                 id: user._id,
                 name: user.name,
                 email: user.email,
-                role: user.role // Фронтэнд мөн адил role-ийг мэдэх хэрэгтэй
+                role: user.role 
             }
         });
-        // -------------------------
 
     } catch (error) {
         console.error("SignIn Error:", error);

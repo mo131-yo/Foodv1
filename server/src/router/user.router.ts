@@ -3,7 +3,6 @@ import { Router } from "express";
 import { signUpController } from "../controller/users/Nevterh/sign-up-controller";
 import { signInController } from "../controller/users/Nevterh/sign-in-controller";
 import { verifyEmail } from "../controller/users/verify-email.controller";
-import { updateUser } from "../controller/users/update.controller";
 import { getAllUsers } from "../controller/users/all-user.controller";
 import { resetPassword } from "../controller/users/reset-Password.controller";
 import { resetPasswordRequest } from "../controller/users/reset-password-request.controller";
@@ -21,12 +20,7 @@ userRouter.post("/sign-in", signInController);
 
 userRouter.get("/verify-email", verifyEmail);
 
-userRouter.post("/resend-otp", signInController);
+userRouter.post("/reset-password-request", resetPasswordRequest);
+userRouter.post("/reset-password", resetPassword);
 
-userRouter.post("/update-user/:id", updateUser);
-
-userRouter.patch("/reset-password-request", resetPassword);
-
-userRouter.post("/reset-password-request", resetPasswordRequest); // Код илгээх
-userRouter.post("/reset-password", resetPassword);       // Нууц үг солих
-userRouter.get("/refresh", refresh);
+userRouter.post("/refresh", refresh )

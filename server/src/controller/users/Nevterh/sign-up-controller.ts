@@ -19,11 +19,10 @@ export const signUpController = async (req: Request, res: Response) => {
 
         const token = jwt.sign({ _id: newUser._id }, process.env.JWT_SECRET || "hello", { expiresIn: "1d" } );
 
-        await verifyUserEmail(email,`${process.env.BACKEND_API}/users/verify-user?token=${token}`) ;
+        await verifyUserEmail(email,`${process.env.BACKEND_API}/users/verify-email?token=${token}`) ;
 
         res.status(201).json({
-            success: true,
-            message: "Burtgel amjilttai , email ta luu yvuulsan",
+            message: "Burtgel amjilttai , email luu tani mail yvuulsan",
             userId: newUser._id
         });
 

@@ -1,34 +1,72 @@
 import { Request, Response } from "express";
-import jwt from "jsonwebtoken";
+import jwt, { decode } from "jsonwebtoken";
+import { UserModel } from "../../schema/user.schema";
+
+// export const refresh = async (req: Request, res: Response) => {
+//     try {
+//         const { refreshToken } = req.body;
+
+//         if (!refreshToken) {
+//             return res.status(401).json({ message: "Refresh token байхгүй байна." });
+//         }
+
+        
+//         const decoded: any = jwt.verify(refreshToken, "refresh_secret_123");
+
+//         const user = await UserModel.findById(decoded.userIdd || decoded._id);
+
+//         if (!user) {
+//             return res.status(404).json({ message: "Хэрэглэгч олдсонгүй." });
+//         }
+
+//         const accessToken = jwt.sign(
+//             { userId: user._id, email: user.email },
+//             process.env.ACCESS_TOKEN_SECRET || "access_secret_123",
+//             { expiresIn: "15m" } 
+//         );
+
+//         res.status(200).json({
+//             accessToken,
+//         });
+
+//     } catch (error) {
+//         console.error(error);
+//         res.status(403).json({ message: "Refresh token хүчингүй эсвэл хугацаа нь дууссан." });
+//     }
+// };
+
 
 export const refresh = async (req: Request, res: Response) => {
     try {
-        const refreshToken = req.cookies.refreshToken;
-        
-        if (!refreshToken) {
-            return res.status(401).json({ message: "Refresh token байхгүй байна" });
+        const { token } = req.body;
+
+        if (!token) {
+            return res.status(401).json({ message: "Refresh token байхгүй байна." });
         }
 
-        jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET!, (err: any, decoded: any) => {
-            if (err) {
-                return res.status(403).json({ message: "Refresh token хүчингүй эсвэл хугацаа дууссан" });
-            }
+        const secret = process.env.REFRESH_TOKEN_SECRET; 
+        const decoded: any = jwt.verify(token, secret as string);
 
-            const newAccessToken = jwt.sign(
-                { userId: decoded.userId, role: decoded.role }, 
-                process.env.JWT_SECRET!,
-                { expiresIn: "15m" }
-            );
+        const user = await UserModel.findById(decoded.userId || decoded._id);
 
-            res.status(200).json({
-                accessToken: newAccessToken,
-                message: "Эрх амжилттай сунгагдлаа"
-            });
+
+        if (!user) {
+            return res.status(404).json({ message: "Хэрэглэгч олдсонгүй." });
+        }
+
+        const accessToken = jwt.sign(
+            { userId: user._id, email: user.email },
+            process.env.ACCESS_TOKEN_SECRET || "access_secret_123",
+            { expiresIn: "15m" } 
+        );
+
+        res.status(200).json({ accessToken });
+
+    } catch (error: any) {
+        console.error("JWT Verify Error:", error.message);
+        res.status(403).json({ 
+            message: "Refresh token хүчингүй байна.",
+            error: error.message 
         });
-    } catch (error) {
-        res.status(500).json({ message: "Серверийн алдаа" });
     }
 };
-
-// import cookieParser from 'cookie-parser';
-// app.use(cookieParser());

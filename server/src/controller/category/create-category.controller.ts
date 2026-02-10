@@ -5,9 +5,9 @@ import { FoodCategoryModel } from "../../models/food.category.model";
 
 export const createFoodCategory = async (req: Request, res: Response) => {
     try {
-        const { _id, categoryName, description } = req.body;
+        const { categoryName, description } = req.body;
 
-        const newFood = await FoodCategoryModel.create({ _id, categoryName, description });
+        const newFood = await FoodCategoryModel.create({ categoryName, description });
 
         res.status(201).json({ 
             message: "Category amjilttai nemegdlee", 

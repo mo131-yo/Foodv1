@@ -32,7 +32,7 @@ const UserSchema = new Schema<User>({
     phoneNumber: {type: String},
     resetPasswordOtp: {type: String, required: false},
     resetPasswordExpires: {type: Date, required: false},
-    userName: { type:String, unique:true},
+    userName: { type:String},
 }, 
 { timestamps: true });
 // export const UserModel = models["User"] || model("User", UserSchema);

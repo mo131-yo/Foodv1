@@ -5,9 +5,8 @@ import connectToMongoDB from "./mongoDb";
 import { foodCategoryRouter, foodRouter, userRouter } from "./router";
 import { UserModel } from "./schema/user.schema";
 import bcrypt from "bcrypt";
-import { ResetPasswordVerificationEmail } from "./utils/reset-password";
 import { orderRouter } from "./router/order.router";
-import jwt from "jsonwebtoken"
+
 
 configDotenv();
 
@@ -20,18 +19,6 @@ app.get("/", (req, res) => {
     res.send("Server is running!");
 });
 
-app.post("/create-user", async (req: Request, res: Response) => {
-    try {
-        const { name, email, password } = req.body;
-        const salt = await bcrypt.genSalt(10);
-        const hashedPassword = await bcrypt.hash(password, salt);
-        
-        const newUser = await UserModel.create({ name, email, password: hashedPassword });
-        res.status(200).send({ message: "user amjilttai uuslee", data: newUser });
-    } catch (error) {
-        res.status(500).send({ message: "Error", error });
-    }
-});
 
 app.get("/get-users", async (req: Request, res: Response) => {
     const users = await UserModel.find({});
@@ -44,6 +31,7 @@ app.use("/foods-category", foodCategoryRouter);
 app.use("/foods-order", orderRouter);
 
 
+
 app.post("/verify-otp", async (req, res) => {
     const { email, otpCode } = req.body;
     const user = await UserModel.findOne({ email });
@@ -52,23 +40,17 @@ app.post("/verify-otp", async (req, res) => {
         return res.status(400).json({ message: "Хэрэглэгч олдсонгүй" });
     }
     
-    // Төрөл болон илүү зайг арилгаж харьцуулах
     const dbOtp = String(user.resetPasswordOtp).trim();
     const inputOtp = String(otpCode).trim();
     
     const isCodeWrong = dbOtp !== inputOtp;
-    const isExpired = new Date() > new Date(user.resetPasswordExpires!); // Date объект болгох
+    const isExpired = new Date() > new Date(user.resetPasswordExpires!); 
     
     if (isCodeWrong || isExpired) {
         return res.status(400).json({ 
             message: isCodeWrong ? "Код буруу байна" : "Кодын хугацаа дууссан байна" 
         });
     }
-
-    // Амжилттай болсон бол OTP-г нь устгах эсвэл баталгаажуулсан төлөвт оруулах
-    // user.resetPasswordOtp = undefined;
-    // await user.save();
-
     res.status(200).json({ message: "Код амжилттай баталгаажлаа" });
 });
 
