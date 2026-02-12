@@ -40,4 +40,3 @@ app.listen(PORT, async () => {
     }
 });
 // // app.listen(8000, () => console.log("http://localhost:8000"));
-// npm install axios
