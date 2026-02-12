@@ -16,10 +16,9 @@ export const verifyUserEmail = async (receiver: string, verifyLink: string) => {
             <div style="font-family: sans-serif; padding: 20px; text-align: center;">
               <h2>Welcome</h2>
               <p>Odoo ter Tom nogoon deer darj Email ee batalgaajuulna uu!</p>
-              <a href="${verifyLink}" 
-                style="background-color: #4CAF50; color: white; padding: 12px 25px; text-decoration: none; border-radius: 5px; display: inline-block; margin-top: 10px;">
+              <div href="${verifyLink}" style="background-color: #4CAF50; color: white; padding: 12px 25px; text-decoration: none; border-radius: 5px; display: inline-block; margin-top: 10px;">
                 Mail batalgaajuulah
-              </a>
+              </div>
             </div>
           `,
     });
