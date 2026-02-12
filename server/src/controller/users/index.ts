@@ -5,4 +5,5 @@ export * from "./Nevterh/index";
 export * from "./all-user.controller";
 export * from "./reset-Password.controller";
 export * from "./reset-password-request.controller";
-export * from "./refresh.controller"
+export * from "./refresh.controller";
+export * from "./update-user.controller"

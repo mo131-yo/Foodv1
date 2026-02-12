@@ -1,4 +1,4 @@
-import { createUser, getUserByIdAndGet, refresh } from "../controller";
+import { createUser, getUserByIdAndGet, refresh, updateUser } from "../controller";
 import { Router } from "express";
 import { signUpController } from "../controller/users/Nevterh/sign-up-controller";
 import { signInController } from "../controller/users/Nevterh/sign-in-controller";
@@ -24,3 +24,5 @@ userRouter.post("/reset-password-request", resetPasswordRequest);
 userRouter.post("/reset-password", resetPassword);
 
 userRouter.post("/refresh", refresh )
+
+userRouter.patch("/update-user/:userId", updateUser)
