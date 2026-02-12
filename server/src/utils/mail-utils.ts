@@ -13,12 +13,15 @@ export const verifyUserEmail = async (receiver: string, verifyLink: string) => {
       to: receiver,
       subject: "Burtgel batalgaajlaa",
       html: `
-        <div style="font-family: sans-serif; padding: 20px;">
-          <h2>Тавтай морил!</h2>
-          <p>Link ni deer darj burtgelee batalgaajuul</p>
-          <a href="${verifyLink}" style="background: #007bff; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px;"></a>
-        </div>
-      `,
+            <div style="font-family: sans-serif; padding: 20px; text-align: center;">
+              <h2>Welcome</h2>
+              <p>Odoo ter Tom nogoon deer darj Email ee batalgaajuulna uu!</p>
+              <a href="${verifyLink}" 
+                style="background-color: #4CAF50; color: white; padding: 12px 25px; text-decoration: none; border-radius: 5px; display: inline-block; margin-top: 10px;">
+                Mail batalgaajuulah
+              </a>
+            </div>
+          `,
     });
 
     if (error) {
